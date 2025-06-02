@@ -16,6 +16,9 @@ structlog = "^25.3.0"
 alembic = "^1.15.2"
 asyncpg = "^0.30.0"
 pydantic-settings = "2.9.1"
+SQLAlchemy = "2.0.41"
+
+
 
 
 [build-system]

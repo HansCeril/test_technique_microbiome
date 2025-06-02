@@ -1,4 +1,13 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, UniqueConstraint
+from sqlalchemy import (
+    Column,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Boolean,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import relationship
 from .core import Base
 
@@ -26,7 +35,7 @@ class Metabolite(Base):
     cas_number = Column(String, unique=True, nullable=True)
 
     method = Column(String, nullable=False)
-    sample_data = Column(String, nullable=True)  # could be float or 'ND'/'NA'
+    sample_data = Column(Float, nullable=True)  # could be float or 'ND'/'NA'
 
     uploader_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     uploader_user_id = relationship("User", back_populates="metabolites")
@@ -34,4 +43,6 @@ class Metabolite(Base):
     __table_args__ = (
         UniqueConstraint("id_inchi", name="uniq_id_inchi"),
         UniqueConstraint("cas_number", name="uniq_cas_number"),
+        Index("idx_id_inchi", "id_inchi"),
+        Index("idx_cas_number", "cas_number"),
     )
