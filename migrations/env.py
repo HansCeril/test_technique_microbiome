@@ -5,8 +5,8 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import AsyncEngine
+from msio.backend.database.models import Base
 
-from msio.backend.database.core import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -16,7 +16,7 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
-POSTGRES_URI = "postgresql+asyncpg://admin:admin@postgres_backend/backend"
+POSTGRES_URI = "postgresql+asyncpg://admin:admin@localhost:5432/backend"
 config.set_main_option("sqlalchemy.url", POSTGRES_URI)
 
 target_metadata = Base.metadata

@@ -14,7 +14,7 @@ services:
             - "8000:8000"
         networks:
             - msio
-
+    
     postgres_backend:
         container_name: postgres_backend
         image: postgres:16.3
@@ -26,9 +26,26 @@ services:
             - "5432:5432"
         networks:
             - msio
+    
+    pgadmin:
+        container_name: pgadmin4
+        image: dpage/pgadmin4:9.2.0
+        restart: always
+        ports:
+            - "5050:80"
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=anselmeceril@gmail.com
+            - PGADMIN_DEFAULT_PASSWORD=hans
+        depends_on:
+            - postgres_backend
+        networks:
+            - msio
 
 volumes:
     postgres_backend:
+    pgadmin-data:
 
 networks:
   msio:
