@@ -1,5 +1,50 @@
 from typing import Optional
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel, EmailStr, field_validator, model_validator
+
+
+class UserBase(BaseModel):
+    """
+    Base schema for user fields.
+    """
+
+    username: str
+    email: EmailStr
+    is_active: bool = True
+
+
+class UserCreate(UserBase):
+    """
+    Schema for creating a new user.
+
+    Includes:
+    - username: Required
+    - email: Valid email format
+    - password: Required password (hashed pawd)
+    """
+
+    password: str
+
+
+class UserRead(UserBase):
+    """
+    Schema for reading user data from the database.
+
+    Includes:
+    - id: Unique identifier
+    """
+
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class UserInDB(UserRead):
+    """
+    Internal schema with hashed password (if needed internally).
+    """
+
+    hashed_password: str
 
 
 class MetaboliteBase(BaseModel):
