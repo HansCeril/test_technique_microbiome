@@ -12,20 +12,20 @@ SessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 async def insert_data():
     """
     Parse and validate a CSV file containing metabolite data,
-    then insert the data
-    into a PostgreSQL database asynchronously using SQLAlchemy ORM.
+    then insert the data into a PostgreSQL database asynchronously
+    using SQLAlchemy ORM.
 
     Steps:
     - Read and validate CSV data using the `parse_csv` function
     - Convert each validated metabolik data into a `Metabolite` ORM instance.
-    - Add all ORM instances to the session and commit the transaction.
+    - Add all ORM instances to the session and then commit.
 
     Raises:
-        ValueError: If rows is invalid or inconsistent.
+        ValueError: If rows is invalid.
         SQLAlchemyError: If the insertion fails db errror.
     """
     csv_path = Path("data/MetabolitesData_inputDataForTEst.csv")
-    entries = parse_csv(csv_path)
+    data = parse_csv(csv_path)
 
     orm_objects = [
         Metabolite(
@@ -36,7 +36,7 @@ async def insert_data():
             method=e.method,
             sample_data=e.sample_data,
         )
-        for e in entries
+        for e in data
     ]
 
     async with SessionLocal() as session:

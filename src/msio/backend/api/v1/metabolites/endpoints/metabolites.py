@@ -35,14 +35,21 @@ async def create_metabolite(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """_summary_
+    """
+    Create a new metabolite in the database.
+
+    This endpoint allows an authenticated user to submit a new
+    metabolite entry.
 
     Args:
-        payload (MetaboliteCreate): _description_
-        db (AsyncSession, optional): _description_. Defaults to Depends(get_db).
+        payload (MetaboliteCreate): The data of the metabolite to be created.
+        db (AsyncSession): The asynchronous database session.
+        current_user (User): The currently authenticated user, extracted from
+        the JWT token.
 
     Returns:
-        _type_: _description_
+        MetaboliteRead: The newly created metabolite with its generated ID
+        and associated metadata.
     """
     metabolite = Metabolite(**payload.model_dump(), uploader_id=current_user.id)
     db.add(metabolite)
@@ -58,12 +65,26 @@ async def get_metabolite(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Retrieve a single metabolite by ID.
+    Retrieve a single metabolite by its ID.
+
+    This endpoint returns the metabolite stored in the database.
+    It requires the user to be authenticated.
+
+    Args:
+        metabolite_id (int): The ID of the metabolite to retrieve.
+        db (AsyncSession): The asynchronous database session.
+        current_user (User): The currently authenticated user,
+            extracted from the JWT token.
+
+    Raises:
+        HTTPException: Returns 404 if the metabolite is not found.
     """
     result = await db.execute(select(Metabolite).where(Metabolite.id == metabolite_id))
     metabolite = result.scalar_one_or_none()
     if not metabolite:
-        raise HTTPException(status_code=404, detail="Metabolite not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Metabolite not found"
+        )
     return metabolite
 
 
@@ -75,12 +96,30 @@ async def update_metabolite(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Update a metabolite's data.
+    Update an existing metabolite by its ID.
+
+    This endpoint allows an authenticated user to update a metabolite.
+    The metabolite is identified by its unique ID, and all fields
+    provided in the payload will overwrite the current values.
+
+    Args:
+        metabolite_id (int): The ID of the metabolite to update.
+        payload (MetaboliteCreate): The new data for the metabolite.
+        db (AsyncSession): The asynchronous database session.
+        current_user (User): The currently authenticated user.
+
+    Raises:
+        HTTPException: Returns 404 if the metabolite is not found.
+
+    Returns:
+        MetaboliteRead: The updated metabolite data.
     """
     result = await db.execute(select(Metabolite).where(Metabolite.id == metabolite_id))
     metabolite = result.scalar_one_or_none()
     if not metabolite:
-        raise HTTPException(status_code=404, detail="Metabolite not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Metabolite not found"
+        )
 
     for key, value in payload.model_dump().items():
         setattr(metabolite, key, value)
@@ -96,7 +135,23 @@ async def delete_metabolite(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Delete a metabolite by ID.
+    Delete an existing metabolite by its ID.
+
+    This endpoint allows an authenticated user to delete a metabolite
+    from the database.
+    The metabolite is identified by its unique ID. If no metabolite is
+    found with the provided ID, a 404 error is returned.
+
+    Args:
+        metabolite_id (int): The ID of the metabolite to delete.
+        db (AsyncSession): The asynchronous database session.
+        current_user (User): The currently authenticated user.
+
+    Raises:
+        HTTPException: Returns 404 if the metabolite is not found.
+
+    Returns:
+        None: Successful deletion returns a 204 No Content status.
     """
     result = await db.execute(select(Metabolite).where(Metabolite.id == metabolite_id))
     metabolite = result.scalar_one_or_none()

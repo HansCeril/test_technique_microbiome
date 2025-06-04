@@ -19,26 +19,28 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/auth/token")
 
 
 def verify_password(plain_password, hashed_password):
-    """_summary_
+    """
+    Verify a plaintext password against its hashed version.
 
     Args:
-        plain_password (_type_): _description_
-        hashed_password (bool): _description_
+        plain_password (str): The plain text password input by the user.
+        hashed_password (str): The hashed password stored in the database.
 
     Returns:
-        _type_: _description_
+        bool: True if the password is correct, False otherwise.
     """
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password):
-    """_summary_
+    """
+    Generate a hashed version of a plain text password using bcrypt.
 
     Args:
-        password (_type_): _description_
+        password (str): The plain text password to hash.
 
     Returns:
-        _type_: _description_
+        str: The securely hashed password string.
     """
     return pwd_context.hash(password)
 

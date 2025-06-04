@@ -14,14 +14,14 @@ class MetaboliteInput(BaseModel):
         identification_level (int): Identification level.
         id_inchi (str | None): InChI identifier of the metabolite (optional).
         cas_number (str | None): CAS number of the metabolite (optional).
-        method (str): Method used to identify the metabolite.
+        method (str): identify the metabolite.
         sample_data (float | None): Sample quantity;
                     can be a float, "ND", "NA", or empty (converted to None).
 
     Raises:
         ValueError: If both `id_inchi` and `cas_number` are missing.
         ValueError: If `sample_data` cannot be converted to
-                    float when not "ND", "NA", or empty.
+                    float.
     """
 
     feature: str = Field(..., alias="Features")
@@ -103,14 +103,14 @@ class MetaboliteInput(BaseModel):
 def parse_csv(file_path: Path) -> List[MetaboliteInput]:
     """
     Parses and validates a CSV file of metabolite data into a list of
-    `MetaboliteInput` instances.
+    MetaboliteInput instances.
 
     Args:
         file_path (Path): Path to the CSV file.
 
     Raises:
-        ValueError: If a row has invalid or inconsistent data.
-        ValueError: If a feature is linked to multiple IDs or vice versa.
+        ValueError: If a row has invalid.
+        ValueError: If a feature is linked to multiple IDs.
 
     Returns:
         List[MetaboliteInput]: A list of valid metabolite inputs.
@@ -155,9 +155,9 @@ if __name__ == "__main__":
     csv_path = Path("data/MetabolitesData_inputDataForTEst.csv")
 
     try:
-        entries = parse_csv(csv_path)
-        print(f"Parsed {len(entries)} rows successfully.")
-        for data in entries[:5]:
+        datas = parse_csv(csv_path)
+        print(f"Parsed {len(datas)} rows successfully.")
+        for data in datas[:5]:
             print(data.model_dump())
     except Exception as e:
         print(f"Error while parsing: {e}")

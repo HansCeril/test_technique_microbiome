@@ -95,16 +95,12 @@ python3 -c "import secrets; print(secrets.token_urlsafe(64))"
 ##
 ```env
 POSTGRES_HOST=postgres_backend
-POSTGRES_PORT=5432
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=admin
 POSTGRES_DB=backend
-
-SECRET_KEY=secret-key
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=60
-
-CORS_ORIGIN=*
+SECRET_KEY=vfXZwzgMi4rBC0F6OVANeYdebh_5l24GbKnFle88Tkfu2wumD8uoIAvT-4B5bHSs0-RJkoZwA8eiIfp4QRPHtA
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 ```
 
 
@@ -163,7 +159,7 @@ Inserted 16 metabolites into the database.
 http://0.0.0.0:8000/api/0.1.0/docs
 ```
 
-## Authentification via la documentation FastAPI
+## Authentification via l'API FastAPI
 #### 1. Envoyez une requête POST à /api/0.1.0/users/register avec un JSON comme ceci :
 
 ![Documentation FastAPI](images/register.png)
@@ -179,13 +175,14 @@ Envoyez une requête POST à /api/0.1.0/users/auth/token
 Un token JWT vous sera retourné sous la forme :
 ![Documentation FastAPI](images/token.png)
 
-#### 3. Authentification via Swagger
+## Authentification via Swagger
 ###### 1. Cliquez sur "Authorize" (en haut à droite)
 ![Documentation FastAPI](images/authorize.png)
 
 ###### 2. Renseignez :
 -   username : ""
 -   password : ""
+
 Laissez les autres champs vides
 
 ![Documentation FastAPI](images/swagger_auth.png)
