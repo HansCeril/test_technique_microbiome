@@ -108,7 +108,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 Pour exécuter l'application ainsi que les services nécessaires (PostgreSQL, backend, pgAdmin), utilisez la commande suivante depuis la racine du projet :
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 Cette commande va :
 
@@ -191,3 +191,36 @@ Laissez les autres champs vides
 Tu es maintenant authentifié et tu peux appeler toutes les routes protégées de l'API via Swagger ou Postman avec le token JWT.
 
 ![Documentation FastAPI](images/auth.png)
+
+
+# CLEAN PROJECT
+
+### Stop all running containers
+```bash
+docker stop $(docker ps -aq)
+```
+
+### Remove all containers
+```bash
+docker rm -f $(docker ps -aq)
+```
+
+### Remove all images
+```bash
+docker rmi -f $(docker images -aq)
+```
+
+### Remove all volumes
+```bash
+docker volume rm -f $(docker volume ls -q)
+```
+
+### Remove  networks
+```bash
+docker network rm $(docker network ls -q)
+```
+
+### Remove build cache
+```bash
+docker builder prune -af
+```
