@@ -16,7 +16,7 @@ async def insert_data():
     using SQLAlchemy ORM.
 
     Steps:
-    - Read and validate CSV data using the `parse_csv` function
+    - Read and validate CSV data using the parse_csv function
     - Convert each validated metabolik data into a `Metabolite` ORM instance.
     - Add all ORM instances to the session and then commit.
 
