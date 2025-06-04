@@ -1,10 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from src.msio.backend.core.config import config
-
+from fastapi.middleware.cors import CORSMiddleware
 from msio.backend.log import configure_logging
 from msio.backend.api.health.api import api_router_health
-from fastapi.middleware.cors import CORSMiddleware
+from msio.backend.api.v1.metabolites.api import api_router_metabolites
+from msio.backend.api.v1.users.api import api_router_users
 
 
 VERSION = config.VERSION
@@ -33,6 +34,8 @@ app.add_middleware(
 
 
 app.include_router(api_router_health)
+app.include_router(api_router_metabolites)
+app.include_router(api_router_users)
 
 
 if __name__ == "__main__":

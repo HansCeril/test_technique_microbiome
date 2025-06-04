@@ -16,7 +16,7 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
-POSTGRES_URI = "postgresql+asyncpg://admin:admin@localhost:5432/backend"
+POSTGRES_URI = "postgresql+asyncpg://admin:admin@postgres_backend:5432/backend"
 config.set_main_option("sqlalchemy.url", POSTGRES_URI)
 
 target_metadata = Base.metadata

@@ -1,10 +1,10 @@
 import asyncio
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from msio.backend.database.models import Metabolite
-from ETL.parser import parse_csv, Path
+from parser import parse_csv, Path
 
 # Local Session postgres db
-POSTGRES_URI = "postgresql+asyncpg://admin:admin@localhost:5432/backend"
+POSTGRES_URI = "postgresql+asyncpg://admin:admin@postgres_backend:5432/backend"
 engine = create_async_engine(POSTGRES_URI, echo=False)
 SessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 

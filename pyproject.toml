@@ -17,6 +17,11 @@ alembic = "^1.15.2"
 asyncpg = "^0.30.0"
 pydantic-settings = "2.9.1"
 SQLAlchemy = "2.0.41"
+passlib = "1.7.4"
+python-jose = "3.5.0"
+
+
+
 
 
 
